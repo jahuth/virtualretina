@@ -1,0 +1,81 @@
+*************************************************************************
+************            Welcome to VirtualRetina        *****************
+************                version 2.2.2               *****************
+*************************************************************************
+
+                         Spiking, large-scale retina simulation software.
+
+      Author : Adrien Wohrer
+      Institution : Group For Neural Theory, Ecole Normale Supérieure
+      Contact : Adrien.Wohrer@ens.fr
+      Project started December 2004. 
+      Version 2.2.2 : December 2010.
+
+
+
+********* GOALS, SCOPE OF USE *****
+
+These programs were written to simulate retinal processing on an input
+video sequence, in a customizable fashion ranking from simple spatio-
+temporal linear filtering, to a precise 'biologically-inspired' model.
+
+All this is described in the attached 'tutorial.pdf'. You should start
+off with that !
+
+
+********* INSTALLATION *************
+
+See 'tutorial.pdf'.
+
+==> Other libraries required by the software must be installed first
+    on the machine:
+
+   * you can use the provided script download_build_all.bash
+       --> local installation
+   * or you can manually install these libs, or part of them if you
+     already have the others installed.
+
+==> VirtualRetina is configured with CMake:
+
+   * install cmake if it is not present yet on your machine
+     (automatically done by script download_build_all.bash )
+   * Configure the compilation by typing "cmake CMakeLists.txt" in the
+     VirtualRetina root directory.
+   * Then build the library by typing "make".
+
+==> If you proceed to manual installation and want to change paths for
+    the external libraries:
+
+   * Modify the symbolic links in VirtualRetina/ext-lib-links/
+   * OR: use the cmake GUI (program ccmake) to change the different paths.
+   * OR: directly modify the paths in CMakeLists.txt and launch the
+     configuration again. (Paths /usr/lib and /usr/local/lib are tested by 
+     default, so require no change.)
+
+==> That's all folks.
+
+
+********* OH YEAH, BY THE WAY *****
+
+For the occasion, I implemented some generic tools that could possibly
+be used in a more global context than the retina itself  (at least by
+myself :-) ). These tools include:
+
+1) Temporal linear recursive filtering objects that can deal with
+   temporal signals and/or spatio-temporal sequences.
+
+2) Spatially-variant filtering maps that implement approximations of 
+   Gaussian blurs with radially-varying scales, in a recursive fashion
+   (Deriche-like filters).
+
+3) Definition of arrays of spiking neurons, possibly with
+   radially-variant density.
+
+4) Relatively user-friendly c++ tools to attach the RELEVANT parameters
+   of a C++ object to an xml file, and hence to save/load this object to xml.
+
+5) A model for analogic synapes, and the structure to handle different
+   synaptic ports, associated to direct current inputs or to synaptic
+   conductances.
+
+6) Already have all this, huh? Oh well...

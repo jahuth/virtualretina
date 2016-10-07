@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+
+
+<!--Hello, this is a sample retina description file, implementing a SINGLE, SPIKING X GANGLION CELL with CONTRAST GAIN CONTROL, without microsaccades. -->
+
+<retina-description-file>
+	
+	<retina 
+	  temporal-step__sec="0.005"
+		input-luminosity-range="255"
+		pixels-per-degree="2.0">
+		
+		<outer-plexiform-layer>
+			<linear-version
+			center-sigma__deg="0.88"
+			surround-sigma__deg="2.35" 
+			center-tau__sec="0.01"
+			surround-tau__sec="0.01" 
+			opl-amplification="10"
+			opl-relative-weight="1"
+			leaky-heat-equation="1">
+			<undershoot relative-weight="0.5"
+			            tau__sec="0.2"/>
+			</linear-version>
+		</outer-plexiform-layer>
+		
+		<contrast-gain-control
+      opl-amplification__Hz="150"
+			bipolar-inert-leaks__Hz="5"
+			adaptation-sigma__deg="2.5"
+			adaptation-tau__sec="0.01"
+			adaptation-feedback-amplification__Hz="100"/>
+		
+		<!-- Note that, given the parameters of the spiking array, there will be only ONE cell, centered in (0,0) !!-->
+		
+		<ganglion-layer
+			sign = "1"
+			transient-tau__sec="0.03"
+			transient-relative-weight="0.7"
+			bipolar-linear-threshold="0"
+			value-at-linear-threshold__Hz="80"
+			bipolar-amplification__Hz="100">
+			<spiking-channel 
+				g-leak__Hz="50" sigma-V="0.1" refr-mean__sec="0.003"
+				refr-stdev__sec="0.001" random-init="1">
+				<circular-array
+				diameter__deg="0.5" fovea-density__inv-deg="1" />
+			</spiking-channel>
+		</ganglion-layer>
+		
+		
+	</retina>
+</retina-description-file>
+
+<!--  THATS ALL FOLKS! -->
+

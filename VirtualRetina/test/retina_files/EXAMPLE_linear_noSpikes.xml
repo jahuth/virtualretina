@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<!--Hello, this is a sample retina description file, implementing the simplest LINEAR RETINA, without spikes, nor radial scheme, nor contrast gain control, nor microsaccades. This file is one of the custom files you can directly use to define your retina. Use it with sequences normalized between 0 and 255. -->
+
+
+<retina-description-file>
+	
+	<retina temporal-step__sec="0.05"
+		input-luminosity-range="255"
+		pixels-per-degree="10.0">
+		<outer-plexiform-layer>
+			<linear-version 
+				center-sigma__deg="0.1"
+				surround-sigma__deg="0.3"
+				center-tau__sec="0.01"
+				surround-tau__sec="0.01" 
+				opl-amplification="10"
+				opl-relative-weight="1"
+        leaky-heat-equation="1" />
+		</outer-plexiform-layer>
+	</retina>
+</retina-description-file>
+
+<!--  THATS ALL FOLKS! -->
+

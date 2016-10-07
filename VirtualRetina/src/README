@@ -1,0 +1,92 @@
+*************************************************************************
+************            Welcome to VirtualRetina        *****************
+************                version 2.2.1               *****************
+*************************************************************************
+
+                         Spiking, large-scale retina simulation software.
+
+      Author : Adrien Wohrer
+      Institution : Group For Neural Theory, Ecole Normale Supérieure
+      Contact : Adrien.Wohrer@ens.fr
+      Project started December 2004. 
+      Version 2.2 : April 2010.
+
+
+*************************************************************************
+************        Source directory : src/             *****************
+*************************************************************************
+
+Contains sources for the virtualretina library :
+
+****** Filtering objects:
+
+baserecfilter.h			  Temporal recursive filters and simple operations between
+	                    filters (sum,convolution..)
+basemapfilter.h			  A recursive filtering on images, to perform spatio-
+                      temporal separable filtering.
+retinamapfilter.h		  Linear filtering by a layer of retinal cells,
+                      including a spatial blur. Can have a radial structure.
+condcellmap.h			    Layer of retinal cells with possible CONDUCTANCE-inputs
+				              (non-linear effects)
+
+****** Radial objects:
+
+radialscheme.h			  Base class that defines a radially variant structure
+                      for the retina.
+logpolarscheme.h		  Specialization of the preceding. Log-polar density.
+radialfilter.h			  Implement a recursive approximation for radially-
+                      variant gaussian blur, or filtering by first or 
+                      second derivative of a Gaussian. Inspired from 
+                      Tan et al, 2003, Real Time Imaging.
+
+****** Synapses, conductances:
+
+instantsynapse.h		  Defines a generic type of synaptic transmission.
+cellporthandler.h		  Defines inputs for a cell or map of cells, some
+                      conductance inputs, others direct current inputs, 
+                      and all associated to input synapses.
+
+****** Spiking objects:
+
+spik_units.h			    Defines conductance-driven spiking neurons 
+                      (CondNeuron_cpm), and their extension 
+                      (IntegratorNeuron_cpm) to integrate analog inputs 
+                      (like ganglion cells in the retina).
+basespikingchannel.h  Generic array of IntegratorNeuron_cpm.
+rdsampling.h		      Circular array that can follow a non-homogenous 
+                      retinal density.
+sqsampling.h		      Square array with uniform density.
+
+****** Aaaaaand:
+
+retina.h			        Defines a whole retinal architecture from the preceding
+                      objects [also with retina_spikingchannels.h].
+reconstruct.h			    Helper functions used in ReconstructRetina.cc
+
+
+
+*************************************************************************
+************      Tool directory : src/retinatools        ***************
+*************************************************************************
+
+Contains sources for the retina_tools library
+
+More general tools. Include little mathematical operations, small personnal
+extensions of CImg.h, random numbers, object factory, drawing facilities...
+kind of specialized for the retina programs.
+
+One of them *might* be useful to you in another context:
+
+cimg_tools.h			    Small extensions and wrappers for program CImg.h.
+                      Includes class CImgSignalDrawer, a wrapper for the
+                      signal-drawing function of CImg that can handle the
+                      drawing of axis, of different signals in the figure...
+
+
+
+*************************************************************************
+************      Application directory : src/appli       ***************
+*************************************************************************
+
+Contains the code for the executables.
+
