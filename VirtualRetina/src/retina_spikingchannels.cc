@@ -53,6 +53,7 @@ void ret_rdSampling::xmlize()
 {
   add_param(diameter,"diameter__deg");
   add_param(foveaDensity,"fovea-density__inv-deg");
+  add_param(noisePos,"noise_pos");
 }
 
 
@@ -63,6 +64,7 @@ void ret_sqSampling::xmlize()
   add_param(*sizeX,"size-x__deg");
   add_param(*sizeY,"size-y__deg");
   add_param(uniformDensity,"uniform-density__inv-deg");
+  add_param(noisePos,"noise_pos");
 }
 
 

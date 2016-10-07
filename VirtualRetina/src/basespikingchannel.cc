@@ -51,6 +51,18 @@ void BaseSpikingChannel::allocateValues(void)
     }
     sampScheme->createUnits(); // create all new units
   }
+	else
+	{
+	  for(uint i=0;i<units.size();++i) 
+	  {
+	    units[i]->set_g_leak(this->g_leak); //spiking properties from class ConductanceNeuron
+	    units[i]->tau_refr=this->tau_refr;
+	    units[i]->noise_refr=this->noise_refr;
+	    units[i]->set_noiseV(this->noiseV);
+	    units[i]->set_step(this->step); //the IntegratorNeuron parameter
+	    if(randomInit) units[i]->set_V ( ranf() );
+	  }
+	}
 	done=true;
 }
 
