@@ -1,0 +1,178 @@
+*************************************************************************
+*************************************************************************
+***********     Virtual Retina :  CHANGES ACROSS VERSIONS     ***********
+*************************************************************************
+*************************************************************************
+
+                         Spiking, large-scale retina simulation software.
+
+      Author : Adrien Wohrer
+      Institution : Group For Neural Theory, Ecole Normale Supérieure
+      Contact : Adrien.Wohrer@ens.fr
+      Project started December 2004. 
+
+
+*************************************************************************
+************               VERSION 2.2.2                *****************
+************              (December 2010)               *****************
+*************************************************************************
+
+
+IMPLEMENTATION:
+==============
+
+* Solved bug with noise integration in IntegratorNeuron_cpm.
+  First version, quite ugly: always save the noise added at previous time step,
+  to be able add the *difference* between the two at each time step.
+  TODO: Switch to a fully event-driven handling of noise, directly in CondNeuron_cpm.
+  
+
+*************************************************************************
+************               VERSION 2.2.1                *****************
+************                (April 2010)                *****************
+*************************************************************************
+
+
+USAGE OF VIRTUAL RETINA:
+=======================
+
+- Modified the general architecture of the retina_package. Executables
+  are now stored in VirtualRetina/bin/. Experiments/ are now stored
+  in a separate directory outside of VirtualRetina. Etc.
+
+- Totally removed the obsolete <undershoot-version> of the 
+  <outer-plexiform-layer>. The undershoot is now added as a subfield of
+  the <linear-version> (see EXAMPLE_cat_X_cell.xml).
+
+- Modified implementation of retinal spikingChannels, and associated
+  single units (object "OneCell"). As a result, the XML definition files
+  for the <spiking-channel> parts have slightly changed (see EXAMPLE 
+  retina files).
+  Also, the cells' positions are now given in degrees (instead of pixels).
+  
+- Added a new functionality for normalization in reconstruction from spike
+  trains (option -dn 2 in ReconstructRetina, now the default), leading to
+  much nicer reconstructions.
+  
+  
+IMPLEMENTATION:
+==============
+
+- Modified #includes for compatibility with gcc version 4.3
+
+- Updated to xmlParameters++ version 1.1.1 (with direct use of libxml2 
+  instead of c++ wrapper libxml++).
+  
+- Updated to CImg 1.3.4
+  
+- Solved bug in Retina::adjustSizes() : When using as input a 
+  file "retina.xml" produced by a previous call to program Retina,
+  the new retina produced (and new saved "retina.xml") could display
+  a different number of cells in its spiking channels.
+  
+- Solved bug in <square-array> of spiking cells. Now, an array with a
+  single spiking cell has the cell centered in (0,0), as it should.
+  
+- Changed implementation of ExpCascade in BaseRecFilter (to gain
+  stability). Also, added graphical test of BaseRecFilter impulse 
+  responses: functions testImpulseResponse() and testIntegratedResponse(). 
+
+- various small code modifications and fixes...
+
+
+
+
+*************************************************************************
+************                 VERSION 2.1                *****************
+************            (July 07 -> April 10)           *****************
+*************************************************************************
+
+
+10-30-2007 :
+
+-------> NEW XML NAMES:
+		* in the OPL, 'adaptation-version' is replaced by 'undershoot-version'.
+		  corresponding parameters 'adap-***' replaced by 'undershoot-***'
+
+		* at the contrast gain control stage, all names in '**-amacrine**'
+		  are replaced by their equivalent '**-adaptation**',
+		  accounting for the biological origin of the fast contrast adaptation 
+		  modeled here, which is very likely NOT amacrine cells.
+
+
+10-12-2007 :
+
+-------> SQUARE ARRAY OF SPIKING CELLS: Bug fixed in the sqSpikingChannel (square array of
+	 spiking cells), which did not correctly place the spiking cells in the image.
+
+
+08-21-2007 : 
+
+-------> improved signal representations (cimg_signal_drawer.h and .cc),
+	 with real handling of log scales. Corresponding modifications in src/appli executables
+
+
+08-08-2007 : NEW PACKAGE ONLINE (version 2.1), with
+
+-------> new file architecture (External_Libraries vs VirtualRetina).
+
+-------> Old, rudimentary Makefile replaced by an installation with CMake.
+
+-------> a VirtualRetina/local/ directory is created, with all required bin/ and lib/
+
+-------> Thorough tutorial in pdf, explaining installation, usage and underlying model.
+
+-------> All spatial xml parameters expressed in visual degrees.
+
+-------> Simpler xml names for the different parameters.
+
+-------> Possibility of automatic download and installation of all required libraries,
+         with the shell scipt download_build_all.sh
+
+
+08-06-2007 : Happy birthday Tim
+
+07-24-2007 :
+
+-------> Changed names of the microsaccade generator
+
+-------> Solved numeration bug in Retina_main.cc (size of input_CP , lign 364)
+
+
+07-19-2007 :
+
+-------> Default synaptic function for the contrast-gain-control
+	is taken by default as	
+		 V -> V^2
+	instead of the old synaptic function
+		 V -> pos_part(V-v0) + pos_part(-V-v0)
+	used before that.
+	You can use <contrast-gain-control-custom>, to have more liberty
+	on the choice of the synaptic function.
+
+
+-------> Change in the xml names for the GANGLION layers :
+	the obsolete 'parvocellular-ganglion-layer' and 
+	'magnocellular-ganglion-layer' are now replaced by the simple:
+	
+	'ganglion-layer'.
+
+	But the former names still work.
+
+
+
+
+03-2007 :
+
+-------> All parameters used in the xml definition file are now 
+	followed by the unit in which they are expressed.
+	example:
+		temporal-step is replaced by temporal-step__sec
+
+
+-------> All spatial parameters are now expressed in visual degrees
+	 rather than pixels as before
+
+-------> A pixel/degree conversion is created.
+
+
