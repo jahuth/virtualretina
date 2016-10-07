@@ -13,6 +13,29 @@
 
 
 *************************************************************************
+************               GITHUB VERSION               *****************
+************               (October 2016)               *****************
+*************************************************************************
+Fixes by Emilie Mayer and Jacob Huth on top of Version 2.2.2
+
+INITIALIZATION OF UNITS
+========================
+git hash: d3cdcad73330fbb69dea87ebce37478830f4f83e
+
+  * In basespikingchannel.cc, if a unit was present in the xml file, it was
+    initialized with default values instead of the values of the spiking
+    channel.
+    Now the behaviour changes, such that the properties of the
+    spikingchannel is propagated to all units that are children of this xml
+    node.
+
+  * Also the parameter for square and radial sampling schemes to add jitter
+    to the position of neurons is not processed.
+    The parameter "noise_pos" can now be used as an attribute of rdSampling
+    and sqSampling.
+  
+
+*************************************************************************
 ************               VERSION 2.2.2                *****************
 ************              (December 2010)               *****************
 *************************************************************************
