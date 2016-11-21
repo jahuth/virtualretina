@@ -2,14 +2,16 @@ This repository collects minor bug fixes to the VirtualRetina Simulator<sup>[1](
 
 The new official website of the simulator is: [https://enas.inria.fr/virtual-retina.html](https://enas.inria.fr/virtual-retina.html)
 
-Example files more extensive documentation can be found in the original package, this repository only holds the source code.
+Example files and more extensive documentation can be found in the original package, this repository only holds the source code.
 
 The bugs fixed:
 
  - when loading a configuration with `<units>` already specified, the attributes of the spiking channel are not transferred to the units
- 	+ fixed with [this commit](https://github.com/jahuth/virtualretina/commit/d3cdcad73330fbb69dea87ebce37478830f4f83e)
+ 	+ fixed with [commit d3cdcad](https://github.com/jahuth/virtualretina/commit/d3cdcad73330fbb69dea87ebce37478830f4f83e)
  - while random positioning was implemented, there was no xml attribute to set positional noise `!= 0`
- 	+ fixed with [this commit](https://github.com/jahuth/virtualretina/commit/d3cdcad73330fbb69dea87ebce37478830f4f83e)
+ 	+ fixed with [commit d3cdcad](https://github.com/jahuth/virtualretina/commit/d3cdcad73330fbb69dea87ebce37478830f4f83e)
+ - the saveMap command line option did not save the values of the attenuation signal
+ 	+ fixed with [commit 0c839cd](https://github.com/jahuth/virtualretina/commit/0c839cda66681529899efff16a3e4d2e3ebc0cec)
 
 Contributors to this project are:
 
