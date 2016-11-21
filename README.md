@@ -1,6 +1,6 @@
-This repository collects minor bug fixes to the VirtualRetina Simulator<sup>[1](#1)</sup>.
+This repository collects minor bug fixes to the VirtualRetina Simulator<sup>[1](#1)</sup>. The package was originally downloaded from [here](http://www-sop.inria.fr/neuromathcomp/software/virtualretina/index.shtml) under INRIA [CeCill C open-source licence](http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html).
 
-The official website of the simulator is: [https://enas.inria.fr/virtual-retina.html](https://enas.inria.fr/virtual-retina.html)
+The new official website of the simulator is: [https://enas.inria.fr/virtual-retina.html](https://enas.inria.fr/virtual-retina.html)
 
 Example files more extensive documentation can be found in the original package, this repository only holds the source code.
 
