@@ -1,5 +1,7 @@
-This repository collects minor bug fixes to the VirtualRetina Simulator[^1].
+This repository collects minor bug fixes to the VirtualRetina Simulator<sup>[1](#1)</sup>.
+
 The official website of the simulator is: [https://enas.inria.fr/virtual-retina.html](https://enas.inria.fr/virtual-retina.html)
+
 Example files more extensive documentation can be found in the original package, this repository only holds the source code.
 
 The bugs fixed:
@@ -47,4 +49,4 @@ of the library, which will:
 2) Compile VirtualRetina.
 ```
 
-[^1]: Wohrer, A., & Kornprobst, P. (2009). Virtual Retina: a biological retina model and simulator, with contrast gain control. Journal of Computational Neuroscience, 26(2), 219–49. http://doi.org/10.1007/s10827-008-0108-4
+<a name="1">1</a>: Wohrer, A., & Kornprobst, P. (2009). Virtual Retina: a biological retina model and simulator, with contrast gain control. Journal of Computational Neuroscience, 26(2), 219–49. http://doi.org/10.1007/s10827-008-0108-4
