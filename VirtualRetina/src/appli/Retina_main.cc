@@ -231,7 +231,7 @@ int Retina_main(int argc, char **argv)
        
   string retinadata(savePath), simdata(savePath), spikes(savePath), 
          spikesHDF5(savePath), receptorpath(savePath), horizontalpath(savePath),
-         oplpath(savePath), bipolarpath(savePath), amacrinepath(savePath), command;
+         oplpath(savePath), bipolarpath(savePath), amacrinepath(savePath), contrcondpath(savePath), command;
   vector<string> ganglionpaths;
 
   string extension(mapFormat);
@@ -269,6 +269,10 @@ int Retina_main(int argc, char **argv)
       command="mkdir "+amacrinepath;
       system(command.c_str());
       amacrinepath+="cgc_adaptation_signal"+extension;
+      attenuationpath+="/cgc_attenuationFrames/";    //creating a temporary file for amacrine frames
+      command="mkdir "+attenuationpath;
+      system(command.c_str());
+      attenuationpath+="cgc_attenuation_signal"+extension;
     }
   }
 
@@ -468,6 +472,7 @@ int Retina_main(int argc, char **argv)
           {
             DaRetina.contrastGainControl->bipolarSignal->read().save(bipolarpath.c_str(),tim/savestep);
             DaRetina.contrastGainControl->adaptationSignal->read().save(amacrinepath.c_str(),tim/savestep);
+	    DaRetina.contrastGainControl->bipolarSignal->attenuationMap->read().save(attenuationpath.c_str(),tim/savestep);
           }
           for(uint chann=0;chann<DaRetina.ganglionLayers.size();chann++)
             DaRetina.ganglionLayers[chann]->inputCurrent.read().save(ganglionpaths[chann].c_str(),tim/savestep);
