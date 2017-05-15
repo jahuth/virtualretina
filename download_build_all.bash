@@ -16,7 +16,7 @@
 ROOTDIR=$PWD
 
 VIRTUALRETINA=VirtualRetina
-CIMG=CImg-1.3.4
+CIMG=CImg-git
 MVASPIKE=mvaspike-1.0.18
 MVASPIKE_DOWNLOAD_ADDRESS=http://gforge.inria.fr/frs/download.php/file/32318/mvaspike-1.0.18.tar.gz
 XMLPARAM=xmlParameters++-1.1.1
@@ -88,9 +88,7 @@ echo ----------------------------------------
 cd $ROOTDIR/External_Libraries
 if [[ ! -d $CIMG ]]  # OPTIM_CHECK
   then
-  wget http://downloads.sourceforge.net/cimg/$CIMG.zip
-  unzip $CIMG.zip
-  rm $CIMG.zip
+  git clone https://github.com/dtschump/CImg.git $CIMG
 else
   echo "Found CIMG rootdir: External_Libraries/"$CIMG
 fi
