@@ -1,6 +1,6 @@
 This repository collects minor bug fixes to the VirtualRetina Simulator<sup>[1](#1)</sup>. The package was originally downloaded from [here](http://www-sop.inria.fr/neuromathcomp/software/virtualretina/index.shtml) under INRIA [CeCill C open-source licence](http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html).
 
-The new official website of the simulator is: [https://enas.inria.fr/virtual-retina.html](https://enas.inria.fr/virtual-retina.html)
+The new official website of the simulator is: [https://virtualretina.inria.fr/](https://virtualretina.inria.fr/)
 
 Example files and more extensive documentation can be found in the original package, this repository only holds the source code.
 
@@ -12,6 +12,9 @@ The bugs fixed:
  	+ fixed with [commit d3cdcad](https://github.com/jahuth/virtualretina/commit/d3cdcad73330fbb69dea87ebce37478830f4f83e)
  - the saveMap command line option did not save the values of the attenuation signal
  	+ fixed with [commit 0c839cd](https://github.com/jahuth/virtualretina/commit/0c839cda66681529899efff16a3e4d2e3ebc0cec)
+ - CImg is now downloaded from their github repository
+ 	+ fixed with [commit cb13f4b](https://github.com/jahuth/virtualretina/commit/cb13f4b8c7a93bc3d7a6d686b284b8ea3eb35391)
+ 	+ removed deprecated function call [commit f56ba20](https://github.com/jahuth/virtualretina/commit/f56ba203c1d7fe768cc27ed39aabb0610f07aa3d)
 
 Contributors to this project are:
 
