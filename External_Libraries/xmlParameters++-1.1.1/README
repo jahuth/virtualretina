@@ -1,0 +1,508 @@
+*************************************************************************
+************          Welcome to xmlParameters++        *****************
+************               version 1.1.1                *****************
+*************************************************************************
+
+             Saving/loading parameters of a C++ program from an xml tree.
+
+      Author : Adrien Wohrer
+      Institution : Group For Neural Theory, Ecole Normale Supérieure
+      Contact : Adrien.Wohrer@ens.fr
+      Code started September 2006. 
+      Version 1.1.1 : April 2010.
+
+
+************** GOAL:
+
+Hi, this is a small library that I wrote to load the multiple parameters of
+VirtualRetina, a retina simulation software.
+Its goal is to be able to save/load a C++ object-based architecture to an XML
+tree, in which only relevant parameters should be stored (the parameters that
+define the C++ objects, not necessarily ALL C++ fields of the object.)
+
+Underlying are C++ 'xml-handling' objects that wrap the real objects, and
+know how to save/load the parameters of the object that has been wrapped.
+
+
+************** EXAMPLE OF USE:
+
+Go to directory Example, read the README, follow the instructions.
+Launch the program Test_Bus directly from directory Example (otherwise, the
+program aborts).
+
+
+************** USEFUL FUNCTIONS AND CLASSES:
+
+... are those defined and commented in file xmlparameters.h
+Other headers do not concern you directly unless you are interested in the
+underlying architecture.
+
+
+*************************************************************************
+                            BASIC TUTORIAL
+*************************************************************************
+
+
+************** GENERAL PRINCIPLES
+
+1. Generally speaking, xmlParameters++ assumes a one-to-one correspondence
+between C++ objects and XML nodes. An object of class 'Toto' can be saved/loaded
+from an XML element with a particular chosen name (say, "toto") and structure.
+In the XML element "toto", the object’s numerical parameters are stored as
+attributes, and sub-field objects are stored as sub-elements.
+
+2. Pointers Toto* can also be initialized from the XML structure, if an element
+coding for a Toto object is present in the XML file. If no such element is
+present, the pointer is left uninitialized.
+
+3. Polymorphism of pointers is possible: A given pointer Toto* can be
+initialized into different specializations of a Toto (say, Toto and Tata),
+according to the type of element ("toto" or "tata") present in the XML file.
+
+4. Standard template containers such as vector<Toto> or list<Toto> can simply
+be initialized by writing successive nodes "toto" in the definition file.
+
+5. All the preceding features can be combined at will, so that one can for
+example initialize a vector<Toto*> from an XML file, by writing a succession of
+"toto" and "tata" nodes.
+
+
+************** CLASS 'XMLIZABLE' AND FUNCTION 'XMLIZE()'
+
+In order to be serializable to XML (we say 'xmlized'), an object Toto must
+inherit from a particular base class called Xmlizable:
+
+    class Toto: virtual public xmlParam::Xmlizable
+    {
+      double d ;
+      int i ;
+      SomeClass sc ;
+    };
+
+An Xmlizable object possesses a virtual function xmlize(), which must be 
+overridden to define how it can be loaded from an XML element:
+
+    void Toto::xmlize()
+    {
+      add_param (d , "name-for-d");
+      add_param (i , "name-for-i");
+      add_child (sc , "some-name-for-my-child");
+    }
+The inclusion of sub-field sc implies that class SomeClass is *also*
+serializable from XML, i.e., inherits from xmlParam::Xmlizable.
+
+Then, an element "Toto" can be initialized from an XML element of the form
+
+      <toto "name-for-d"=2.53 "name-for-i"=2>
+        <some-name-for-my-child . . ./>
+      </toto>
+    
+    
+************** REGISTRATION OF POINTERS AND CONTAINERS
+
+xmlParameters++ offers the possibility to initialize *pointers* and *vectors*
+from the XML structure, including polymorphism. In order to do so, one must
+register the XML element names for the whole chain of inclusion, from pointer
+and/or container to the name of the derived objects themselves.
+Consider again an xmlized class "Toto" and an xmlized class "SomeClass" that
+needs to initialize a particular sub-field 
+    vector<Toto*> vecptr;
+
+This can be done by writing in function SomeClass::xmlize():
+
+    add_child (vecptr,"my-pointer-vector") ;
+    xmlParam::Register <2,Toto> (vecptr, xmlParam::names("name-of-a-pointer","toto")) ;
+
+The first template index (here, 2) indicates the 'depth' of the chain of
+containers and pointers before reaching the actual object. In this particular
+case, element 'vecptr' will be correctly initialized by an XML element of
+the form
+
+    <node-of-SomeClass . . .>
+      . . .
+      <my-pointer-vector>
+        <name-of-a-pointer>
+          <toto . . ./>
+        <name-of-a-pointer/>
+        <name-of-a-pointer>
+          <toto . . ./>
+        <name-of-a-pointer/>
+        etc.
+      </my-pointer-vector>
+    </node-of-SomeClass>
+
+
+************** OBJECTS WITH OR WITHOUT AN XML NAME
+
+When an object of type 'Toto' is added in the XML structure, it is
+associated to an 'xmlName', which can exist or be empty. This changes the way
+the object can be loaded from a father_node in the XML tree:
+
+(CASE 1) The 'Toto' has been associated to a non-empty string name "toto".
+It will then correspond to an effective NODE in the xml tree, which will be a
+child node of node father_node. The xmlized parameters of Toto will be saved
+as attributes of node "toto". The xmlized object members of Toto will be
+savable/loadable recursively from node "toto" considered as their father_node.
+
+(CASE 2) the 'Toto' has been assicated to an empty string name "".
+It will then correspond to no effective node in the xml tree. The xmlized
+parameters of Toto will directly correspond to attributes of node father_node.
+The xmlized object members of Toto will be savable/loadable from node
+father_node considered as their father_node.
+Be careful with this degenerated case, it leads easily to undesired behaviors.
+
+
+************** POINTERS AND POLYMORPHISM
+
+The initialization of a pointer can include polymorphism of pointed objects.
+An object factory can build the appropriate derived object, by reading the
+xml file. All you have to do is REGISTER in the factory each derived type you
+want to be able to build.
+
+Once the whole chain of names has been registered once, other derived types
+can be registered at the end of the chain, by changing the second template
+parameter of function xmlParam::Register<. . .>(. . . ), and adding only the
+new registration name as second argument to the function (see next EXAMPLE).
+
+
+************** NEW EXAMPLE
+
+To illustrate those two last points, consider again the previous example.
+An xmlized class "SomeClass" needs to initialize a subfield
+    vector<Toto*> vecptr;
+knowing that the elements Toto* can either point to an object "Toto",
+or to an object "Tata" (also xmlized) derived from "Toto".
+We write, in function SomeClass::xmlize():
+
+    add_child(vecptr,"") ;
+    xmlParam::Register <2,Toto> (vecptr, xmlParam::names("","toto")) ;
+    xmlParam::Register <2,Tata> (vecptr, "tata") ;
+
+In that case, element 'vecptr' will be correctly initialized by XML elements
+of the form
+
+    <node-of-SomeClass . . .>
+      . . .
+      <toto . . ./>
+      <toto . . ./>
+      <tata . . ./>
+      etc.
+    </node-of-SomeClass>
+
+
+************* USAGE IN EXECUTABLE CODE
+
+Once an XML architecture has been defined in a set of objects by overriding
+their functions xmlize(. . . ) [see "Example/sample_classes_withXMLcode.h"],
+the structure can simply be saved/loaded from an XML structure, thanks to
+two functions xmlParam::save(. . . ) and xmlParam::load(. . . ).
+The XML structure must first have been parsed thanks to library libxml2.
+See usage in "Example/Test_Bus.cc".
+ 
+ 
+ 
+*************************************************************************
+*************************************************************************
+                  FURTHER REMARKS AND IMPLEMENTATION
+*************************************************************************
+*************************************************************************
+
+
+THE NEXT PARAGRAPHS SHOULD ONLY BE READ AFTER UNDERSTANDING THE GENERAL
+USAGE OF THE LIBRARY, AS PROVIDED BY THE FILES IN DIRECTORY Example/
+
+
+
+************* CUSTOM DEFINITION OF AN XML ARCHITECTURE
+
+It is also possible to define various parameters from XML without an
+underlying correspondence to real C++ objects, if base xmlParam::Xmlizable
+objects are directly used to define the elements of the XML structure.
+Parameters and filiation between Xmlizable objects can directly be defined
+(outside of any function xmlize()) by using Xmlizable::add_child(),
+Xmlizable::add_param(), and also their 'external' equivalents for pointers
+and containers: xmlParam::add_param_custom() and xmlParam::add_child_custom().
+[see xmlparameters.h]
+
+
+************** INITIALIZATION AFTER XML LOAD
+
+The main goal of xmlParameters++ is to load a number of parameters from an 
+XML file. But after an object's parameters have been loaded, one often needs 
+to *initialize* some internal structures of the object, depending on the
+value of the loaded parameters. Theoretically, this could be done in a
+second stage, independently of xmlParameters++. However, it may be convenient
+to proceed to this initialization automatically, right after the load from XML.
+xmlParameters++ provides two methods to do this.
+
+The first and simpler method is to override one, or both, of the two virtual
+functions present in xmlParam::Xmlizable :
+  - xmlinit()
+  - xmlinit_after_children()
+Both these functions are automatically called after the load from XML. The
+former is called before the *children* sub-fields of the object are loaded
+from XML, whereas the latter is called after.
+
+A second, heavier but more general method, is to attach custom initialization
+functions to an object: see functions xmlParam::add_init(...) in xmlparameters.h.
+Also, functions xmlParam::Register_init<...>(...) allow to *register* custom
+initialization functions at the level of pointers or containers, to be applied
+after objects are *created* from the XML load.
+
+Both methods are illustrated in 'sample_classes_withXMLcode.h'.
+
+
+************** BASIC PRINCIPLE OF THE IMPLEMENTATION
+
+An xmlized class Toto (so, inheriting from xmlParam::Xmlizable) can be "wrapped"
+by an object of type xmlObject<Toto>. It is the xmlObject<Toto> that knows how
+to save/load itself from a given father_node of an xml tree, given the
+specifications in Toto.xmlize().
+
+This template formalism of xmlObject<WHATEVER> allows us to handle, in the
+exact same format, pointers (TYPE*) and containers (e.g., vector<TYPE>),
+simply by *specializing* the code for their wrappers
+(xmlObject< TYPE* >, xmlObject< vector<TYPE> >, etc.)
+Thanks to this template formalism, we can then directly serialize any
+*combination* of pointers and containers, such as the vector<Toto*>
+presented above.
+
+
+************** GENERAL NOTE ON "INCLUSION IN THE XML STRUCTURE"
+
+In this version (1.1) we have fixed a number of bugs/uncertain memory
+allocations from version (1.0), by making clearer the concept of 'inclusion
+in the XML structure':
+
+1) A given C++ object can only be included in the XML structure *by the user*,
+   through the use of any of the three functions xmlParam::add_object(),
+   xmlClass::add_child() and xmlClass::add_child_custom().
+
+2) When a 'containing' object (pointer or STL container) is included in the
+   XML structure, it is possible to create its content (pointed type or contained
+   elements) from an XML document. However, the created objects are not so to
+   speak 'included in the XML structure'.
+
+Example:
+     Toto* ptr;
+     int a;
+     xmlParam::add_object(ptr,"totoPtr");
+     xmlParam::Register<1,Toto>(ptr,"toto"); // don't forget that line!
+     xmlParam::load(ptr, some_xml_node);     // initializes *ptr
+     xmlParam::add_param_custom(*ptr,a,"one-new-param");
+
+The last line will produce an error at execution, telling you that *ptr was not
+included in the xml structure.
+This sort of makes sense, because normally you have already defined all relevant
+features of *ptr that you would like to load : (1) through the registration of ptr,
+(2) in the xmlize() function of class Toto. So, you should never really interact
+with *ptr.
+
+
+************** RETRIEVING AN OBJECT'S XML NAME
+
+As a single counter-example to the principle enounced in the previous paragraph,
+you may find it useful to have access to the xmlName associated to an object which
+was created by the structure, such as *ptr in the previous example. This is never
+*necessary* (the save/load functionalities of the library do everything on their
+own), but it can be *handy*, e.g., for display purposes.
+
+Take the preceding example and suppose you want to display what you found when
+loading from the xml file:
+     Toto* ptr=0;
+     xmlParam::add_object(ptr,"totoPtr");
+     xmlParam::Register<1,Toto>(ptr,"toto");   // don't forget that line!
+     xmlParam::load(ptr, some_xml_node);       // initializes *ptr
+     cout<<xmlParam::get_xmlName(ptr)<<endl;   // displays "totoPtr"
+     cout<<xmlParam::get_xmlName(*ptr)<<endl;  // *should* display "toto"
+
+The last line will produce an error at execution, telling you that *ptr was not
+included in the xml structure.
+There are two possible, "imperfect" workarounds instead of that last line:
+
+(1) ASK THE HANDLER : limited.
+
+     cout<<xmlParam::get_handledName(*ptr,ptr)<<endl;
+Precises who is the "reference" object in the xml structure in charge of *ptr.
+This also works if you replace ptr by an STL container over class Toto.
+
+This works fine in this case, but in general there is a LIMITATION: the notion of
+being "in charge" does not include children objects. If class Toto has a field 
+"ChildClass mychild" as part of its xml-izable structure, and you ask for:
+     cout<<xmlParam::get_handledName(ptr->mychild,ptr)<<endl;
+you get an error at execution telling you that ptr->mychild is NOT HANDLED by ptr.
+
+(2) LOOK AT THE LAST USED SAVE/LOAD NAME FOR THE OBJECT : potentially dangerous.
+
+     cout<<xmlParam::last_xmlName(*ptr)<<endl;
+     cout<<xmlParam::last_xmlName(ptr->mychild)<<endl;
+This will work in both cases, provided that (*ptr) and (ptr->mychild) have
+actually *been* given names by the xml structure at some point (here, during the
+load). 
+
+If this is not the case, you *generally* get an error telling you that the
+considered object has never been given an xmlName. HOWEVER, if you are unlucky you
+may *GET NO ERROR* and recover a wrong xmlName. This can happen if the address of
+the considered object ( say, &(ptr->mychild) ) was priorly that of an OLD object
+which *was* indeed xmlized and given an xmlName, before being freed and the
+address being re-occupied by the object considered now.
+So be EXTRA CAREFUL of making no mistakes with this one: don't rely on warnings.
+
+
+
+*************** GENERAL RULES FOR HAPPY XMLING             
+
+(in link with next paragraph, "implementations issues")
+
+* RULE 1 : Don't call xmlParameters on "pointed pointers"...
+  ==========================================================
+
+...or "pointed containers", or "contained pointers", etc.
+Something like  xmlParam::add_object(*ptr,"yo");
+            or  xmlParam::add_object(cont[3],"yo");
+is SAFE if *ptr (resp. cont[3]) is a 'regular' object inheriting from
+xmlParam::Xmlizable.
+But it is UNSAFE if *ptr (resp cont[3]) is ITSELF a 'containing' object,
+i.e., a pointer or container. Indeed, in that case, it is possible that *ptr
+be destroyed without the xml wrappers knowing. To understand this rule,
+read paragraph "implementation issues".
+
+* RULE 2 : Don't call xmlParameters functions on dynamic_casts of pointers.
+  ========================================================================
+  
+Something like  Toto *ptr;
+                xmlParam::add_object( dynamic_cast<Tata*>(ptr), "yo" ); 
+                // (class Tata being derived from Toto)
+
+will almost surely lead to errors (also, it seems pretty twisted). The reason is
+that  all the xmlParameters library is based on templates, so the types of the
+pointers should remain coherent.
+(Reminder: This does not prevent from initializing *ptr as a Tata,
+ polymorphism is handled through the Register functions.)
+
+
+
+*************** IMPLEMENTATION ISSUES + LIMITATIONS
+
+
+( No need to read this unless you are really interested in implementation issues )
+
+At the implementation level, a given object 'obj' of type XMLIZED is "included in
+the XML structure" if it has *permanently* an xmlObject<XMLIZED> xmlobj wrapping
+it. Then, the association between &obj and &xmlobj is permanently stored in the
+static variable xmlObject_base::reverseMap.
+This only happens to *user-included* objects, with one of the three functions
+add_object(), add_child() and add_child_custom().
+
+Objects created during initialization of pointers or containers are only
+*temporarily* wrapped by xmlObjects, the time for the saving or loading to occur.
+Then the wrappers are destroyed, as well as the corresponding association in the
+reverseMap. I found this mandatory for a clean handling of memory and addresses.
+The only remaining trace of this temporary wrapping is in the static variable
+xmlObject_base::lastNames, which retains the assocation between (even
+temporarily) wrapped objects' addresses and the xmlName used during the (even
+temporary) wrapping. The only goal of this is conveniency, allowing to use
+function xmlParam::last_xmlName() (which should thus be used with caution, as
+explained above).
+
+Notes: 
+
+* Once you are done with the xml part, the reverseMap is cleared with command
+  "xmlParam::delete_structure()". This also clears xmlObject_base::lastNames.
+  
+* Note that the map xmlObject_base::lastNames can possibly contain many more
+  elements than the map xmlObject_base::reverseMap. I think this should not be a
+  problem as long as you stick to moderate sized structures (under a million of
+  xmlized elements :p). Else, regular calls to delete_structure() must somehow
+  be made.
+
+* Actually, when an object 'obj' of type XMLIZED in included in the XML 
+  structure, the address stored in the reverseMap is not always '&obj'. If 'obj'
+  is a 'regular' (= 'not containing') object, the address really stored is its
+  address **as an Xmlizable object** (using static_cast<Xmlizable*>). Indeed, 
+  the same object may be associated to several physical addresses, especially if
+  it is based on virtual and multiple inheritances. But as XMLIZED objects all
+  inherit from "virtual public xmlParam::Xmlizable", we know that each XMLIZED
+  object is associated to one and only one Xmlizable* address, even if it uses 
+  virtual and multiple inheritance. Naturally, a 'containing' object 'obj' 
+  (pointer or container) does not have this problem, so in that case the address
+  stored is simply '&obj'.
+
+
+This implementation implies the following limitations:
+=====================================================
+
+
+[I] At most one wrapping xmlObject per xmlized object. (and so... ??)
+
+
+[II] You can imagine wicked cases where the reverseMap contains an obsolete
+     association, because you have destroyed 'obj' without destroying its wrapper
+     'xmlobj' (and thus, the association remains in the reverseMap with the
+     former address of 'obj'). 
+
+This cannot happen if 'obj' inherits from Xmlizable, because the destructor
+~Xmlizable() looks for an eventual wrapper and destroys it. However, it might
+happen if 'obj' is a pointer or a container, for two reasons I can imagine:
+
+a) 'obj' is not an object that you have declared, but created through a pointer
+initialization or container addition:
+   XMLIZED *ptr=new XMLIZED(); xmlParam::add_object(*ptr,...); delete ptr; 
+   OR
+   list<XMLIZED> ls; ls.push_back(XMLIZED());
+   xmlParam::add_object(ls.back(),...); ls.pop_back(); 
+
+NOTE THAT, FOR THESE EXAMPLES TO BE PROBLEMATIC, TYPENAME 'XMLIZED' SHOULD
+ITSELF BE A POINTER OR A CONTAINER.
+So most of the times, a command such as "xmlParam::add_object(*ptr,...)" 
+IS safe (see "RULE 1" enounced above).
+
+b) The compiler, being too smart, decided to destroy 'obj' as it is not used
+anymore in the programs. I don't think that c++ compilers can do that, but I'm
+not totally sure!?
+Future workaround? To be perfectly clean, you should replace pointers and
+containers by special template classes xmlParam::Ptr<XMLIZED>,
+xmlParam::List<XMLIZED>, etc., which inherit from an Xmlizable, and thus destroy
+their eventual wrapper when they are destroyed.
+This seems tedious and fairly useless.
+
+
+[III] For the moment, "re-"adding in the xml structure an already 'xml-created'
+      object is useless:
+        
+        Toto* ptr;
+        int a;
+        xmlParam::add_object(ptr,"totoPtr");
+        xmlParam::Register<1,Toto>(ptr,"toto"); // don't forget that line!
+        xmlParam::load(ptr, some_xml_node);     // initializes *ptr
+        xmlParam::add_object(*ptr,"some-new-name"); 
+                  // (required line to not have the 'not added' error)
+        xmlParam::add_param_custom(*ptr,a,"one-new-param");
+
+In present state, the last line has NO EFFECT on the way ptr will be saved/loaded
+from an xml document.
+
+* If LOADING ptr with xmlParam::load(ptr,some_xml_node), *ptr will be initialized
+according to the rules given by the registration of ptr: Must find a child node
+"toto" (NOT "some-new-name"), and "one-new-param" will not be searched for. In
+fact, the possible xmlObject wrapping *ptr is automatically destroyed before
+loading.
+
+* If SAVING ptr with xmlParam::save(ptr,some_xml_node), *ptr will be saved
+according to the rules given by the registration of ptr: Save a child node
+"toto" (NOT "some-new-name"), and "one-new-param" will not be saved. In fact, the
+possible xmlObject wrapping *ptr is automatically destroyed before saving.
+
+Future workaround? Is it really needed? If yes (doubtful), you must modify what
+the system does when it checks for an already existent wrapper for *ptr. This is
+in the functions load_Element() and save_Element() of headers
+xmlobject_pointer_specialisation.h and xmlobject_container_specialisation.h
+
+Note that in this example, you can still manually load/save *ptr (NOT ptr) from a
+well-chosen xml node:
+xmlParam::load(*ptr, some_other_xml_node); // modifies *ptr
+in which case it will retain the custom specification you asked for in the last
+two lines (look for name "some-new-name", and load parameter "one-new-param").
+But who would really want to do that????
+
+

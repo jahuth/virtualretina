@@ -1,0 +1,66 @@
+*************************************************************************
+************          Welcome to xmlParameters++        *****************
+************               version 1.1                  *****************
+*************************************************************************
+
+             Saving/loading parameters of a C++ program from an xml tree.
+
+      Author : Adrien Wohrer
+      Institution : Group For Neural Theory, Ecole Normale Supérieure
+      Contact : Adrien.Wohrer@ens.fr
+      Code started September 2006. 
+      Version 1.1 : April 2010.
+
+
+******************* THIS IS THE EXAMPLE FILE !!! ************************
+
+You very understandably got bored of the preceding README and came here
+to see something more practical!
+
+
+************** PROBLEM:
+
+Suppose you have stupid C++ classes, as defined in 
+
+sample_classes.h
+
+Suppose you want to be able to load the IMPORTANT PARAMETERS of the objects
+through an xml file (NOT ALL the fields of the objects... although in this
+case, you DO load almost all the fields :-) ).
+For example, define the people in a bus by
+
+bus_definition.xml
+
+Note the difficulty of the thing, since you want to initialize a vector<Person*>
+structure, and tell which specialization of Person* has each of the pointed
+objects.
+
+
+************** PROPOSED SOLUTION:
+
+Here is how we do this with xmlParameters++ :
+
+sample_classes_withXMLcode.h
+
+Given an object Bus, all fields that you want to include in an xml file are
+defined in the function called xmlize() inside class Bus. This includes
+registration of different acceptable derived types for a vector<Person*>.
+
+Type "make" in the directory: it will create program Test_Bus, which explicitly
+initializes a Bus object from file bus_definition.xml, uses it, and then saves
+it to another xml file, reconstructed_bus_file.xml.
+
+NOTES:
+
+* Warnings are emitted if an unregistered parameter or node is present in the 
+  XML file (here, the parameter called "whatever", and <arf...> nodes).
+
+* Command "Test_Bus -g" allows to regenerate randomly the content of the bus,
+  after it was loaded from the input XML file, and before saving it to the output
+  XML file. This allows us to check that the LOADING and SAVING procedures are
+  really independent (this command led to a bug in version 1.0).
+
+* By uncommenting the line "#define ADVANCED_TOPICS" at the top of
+  sample_classes_withXMLcode.h, you activate a number of more advanced features in
+  the code of sample_classes_withXMLcode.h and Test_Bus.cc.
+  

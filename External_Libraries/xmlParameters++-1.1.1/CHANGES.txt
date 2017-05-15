@@ -1,0 +1,35 @@
+
+
+************** VERSION 1.1.1
+
+This is the second version (1.1.1) of the library. As compared to the first
+version (1.0), we have:
+
+ * Stopped using library libxml++ (a C++ wrapper for the standard GNU library
+   libxml2 in C), using libxml2 directly instead (so that potential users need
+   not install the relatively useless libxml++).
+   
+ * Changed some class names ('xmlClass' becomes 'Xmlizable') and function
+   names ('xmlRegister' becomes 'Register'), and added all classes and functions
+   in a single namespace 'xmlParam'.
+   
+ * Added a number of warnings.
+ 
+ * Reshaped the library, removing some almost useless headers.
+ 
+ * Fixed some internal bugs related to handling of memory for pointers and
+   containers (see 'General note on inclusion in the XML structure' at the end
+   of the README).
+
+ * Fixed a bug which prevented from correct 'xmlization' of objects using
+   virtual inheritance (see third note in 'implementation issues' at the end
+   of the README).
+
+ * Added two functionalities: Functions to retrieve XML names (see README: 
+   'Retrieving an object's XML name'), and the possibility of applying a custom 
+   initialization to an object, right after its parameters have been loaded 
+   from an xml file (see README: 'Custom initialization after XML load').
+
+ * Changed the make/installation process (create .a and .so libraries,
+   and added a 'make install' procedure).
+

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<!--This is a sample bus description file-->
+
+<bus-description-file>
+	
+	<bus capacity="3" registration-number="3538-3773"> <!--likely, a minibus-->
+		
+		<driver>
+			<arf/> <!--non-significant nodes produce a warning-->
+			<polite age="50" name="jean-pierre" what-I-offer="a ride"/>
+		</driver>
+		
+		<arf-arf-arf/> <!--non-significant nodes produce a warning-->
+		
+		<me age="28" name="adrien" what-I-offer="an xml specification"/>
+		
+		<people>
+			<nice-guy non-significant="whatever" age="12" name="kevin" what-I-offer="a pokemon"/>
+			<shy-guy age="42" name="michael"/>
+			<rude-guy age="22" name="jenyfer" my-insult="keep your hands off"/>
+			<rude-guy age="66" name="maurice" my-insult="leave me your seat"/>
+		</people>
+		
+		<animal-trailer>
+			<dog bark="ham! ham!"/>
+			<dog bark="ouah ouah ouah!!"/>
+			<arf-arf/> <!--non-significant nodes produce a warning-->
+			<cat mew="mi"/>
+			<cat mew="fshhhhhhhr"/>
+			<dog bark="aouuuuuuuh"/>
+		</animal-trailer>
+		
+	</bus>
+</bus-description-file>
+
+<!--  THATS ALL FOLKS! -->
+
