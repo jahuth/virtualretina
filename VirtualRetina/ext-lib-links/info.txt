@@ -1,0 +1,5 @@
+This directory has to contain the following links to make VirtualRetina compile:
+
+ext-lib-links/CImg
+ext-lib-links/MvaSpike
+ext-lib-links/xmlParameters++
