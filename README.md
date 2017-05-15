@@ -51,4 +51,20 @@ of the library, which will:
 2) Compile VirtualRetina.
 ```
 
+Once the package is compiled it can be tested by running:
+
+```
+VirtualRetina/bin/Retina -ret test/retina_files/EXAMPLE_primate_ParvoMagno.xml test/sequences/walking_finland/finland.10* -r 8 -nS 8
+```
+
+And to reconstruct the video:
+
+```
+VirtualRetina/bin/ReconstructRetina -i tmp/simulation.txt -ch 1 0 -f 2 -w 3 -o tmp/last_reconstruction.inr
+VirtualRetina/bin/viewVideo tmp/last_reconstruction.inr -s 20
+```
+
+See `tutorial.pdf` for more examples.
+
+
 <a name="1">1</a>: Wohrer, A., & Kornprobst, P. (2009). Virtual Retina: a biological retina model and simulator, with contrast gain control. Journal of Computational Neuroscience, 26(2), 219–49. http://doi.org/10.1007/s10827-008-0108-4
