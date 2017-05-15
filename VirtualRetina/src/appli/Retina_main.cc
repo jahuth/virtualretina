@@ -231,7 +231,7 @@ int Retina_main(int argc, char **argv)
        
   string retinadata(savePath), simdata(savePath), spikes(savePath), 
          spikesHDF5(savePath), receptorpath(savePath), horizontalpath(savePath),
-         oplpath(savePath), bipolarpath(savePath), amacrinepath(savePath), contrcondpath(savePath), command;
+         oplpath(savePath), bipolarpath(savePath), amacrinepath(savePath), attenuationpath(savePath), contrcondpath(savePath), command;
   vector<string> ganglionpaths;
 
   string extension(mapFormat);
