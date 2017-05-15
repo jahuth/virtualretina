@@ -23,12 +23,13 @@ protected:
   
   CImg<double> *daValues, *preceding;
   CImgList<double> storeInputs;			//the place where we store input conductances AND currents
-  CImg<double> totalCond, attenuationMap; 	//used in new implementation (approximate) of the driving equation
 
   bool done;                //tell whether initialization is over.
   static bool conductanceWarning; //static variables to print ONCE only a warning about possible negative conductances
 
 public:
+  CImg<double> totalCond, attenuationMap; 	//used in new implementation (approximate) of the driving equation
+
   vector<CImgReader> readInputs;		  //to be able to read input values (conductances and currents...)
   RadialFilter gapJunctionFilter;			//the radially variant filtering tool.
 
