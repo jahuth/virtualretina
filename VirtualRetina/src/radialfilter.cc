@@ -180,7 +180,7 @@ void RadialFilter::radiallyVariantDeriche(CImg<double>& image, const char axe)
   if(isRadialScheme)
   {
     int offset, nb;
-    switch(cimg::uncase(axe))
+    switch(axe)
     {
     case 'x': if (image.width()>1)
       {
