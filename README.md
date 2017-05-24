@@ -23,6 +23,44 @@ Contributors to this project are:
  * Jacob Huth
 
 
+Installation
+============
+
+Tested on Ubuntu 14.04, 16.04, 17.04
+
+ 1. Install requirements
+---------------------------
+
+One of the dependencies requires headers for xml libraries: `libxml2-dev` and `libx11-dev`
+It might be possible that `cmake` can be installed automatically, but it is recommended to
+install the latest version via your package manager.
+
+For Ubuntu run:
+
+```
+sudo apt-get install cmake libxml2-dev libx11-dev
+```
+
+
+ 2. Download and Compile
+---------------------------
+
+Clone the repository to a folder of your choice
+```
+git clone https://github.com/jahuth/virtualretina
+```
+
+Run the script `download_build_all.bash` (using `bash`)
+```
+cd virtualretina
+bash download_build_all.bash
+```
+
+This script will download multiple software projects and compile them one after another.
+If you encounter an error, please file an [issue](https://github.com/jahuth/virtualretina/issues).
+
+
+
 ```
 *************************************************************************
 ************            Welcome to VirtualRetina        *****************
