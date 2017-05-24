@@ -160,14 +160,14 @@ void add_init (XMLIZED & object, void (REFCLASS::*func)(XMLIZED_b*), REFCLASS &i
 
 // (c) Initialize using a class member function from class XMLIZED_b itself:
 template<typename XMLIZED, typename XMLIZED_b>
-void add_init (XMLIZED & object, void (XMLIZED_b::*func)(), bool afterChildren=false)
+void add_init (XMLIZED & object, void (XMLIZED_b::*func)(), bool afterChildren)
 {
   find_warn::functor_ref(object,afterChildren).push_back(InitFunctor<XMLIZED>::create(func));
 }
 
 // (d) Initialize using a class member function from class XMLIZED_b itself:
 template<typename XMLIZED, typename XMLIZED_b, typename ARGCLASS>
-void add_init (XMLIZED & object, void (XMLIZED_b::*func)(ARGCLASS), ARGCLASS argument, bool afterChildren=false)
+void add_init (XMLIZED & object, void (XMLIZED_b::*func)(ARGCLASS), ARGCLASS argument, bool afterChildren)
 {
   find_warn::functor_ref(object,afterChildren).push_back(InitFunctor<XMLIZED>::create(func,argument));
 }
