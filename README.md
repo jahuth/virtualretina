@@ -15,12 +15,15 @@ The bugs fixed:
  - CImg is now downloaded from their github repository
  	+ fixed with [commit cb13f4b](https://github.com/jahuth/virtualretina/commit/cb13f4b8c7a93bc3d7a6d686b284b8ea3eb35391)
  	+ removed deprecated function call [commit f56ba20](https://github.com/jahuth/virtualretina/commit/f56ba203c1d7fe768cc27ed39aabb0610f07aa3d)
+ - xmlParameters had clashing template names, leading to compiler warnings
+	+ fixed with [commit 5f9d076](https://github.com/jahuth/virtualretina/commit/5f9d0763e224276ccb53ec80583102594419025e) by [Richard Veale](https://github.com/flyingfalling)
 
 Contributors to this project are:
 
  * Adrien Wohrer - original author
  * Emilie Mayer
  * Jacob Huth
+ * Richard Veale
 
 
 Installation
