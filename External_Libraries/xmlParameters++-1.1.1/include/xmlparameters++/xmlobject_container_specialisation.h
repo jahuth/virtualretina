@@ -19,7 +19,7 @@ template <typename whatever> struct xmlObject_CV {};
 
 // ...and its only useful specialization :
 
-template<typename XMLIZED, typename ALLOC, template <typename XMLIZED, typename ALLOC> class Cont>
+template<typename XMLIZED, typename ALLOC, template <typename XMLIZED2, typename ALLOC2> class Cont>
 struct xmlObject_CV < Cont<XMLIZED, ALLOC> > : public xmlObject_tbase < Cont<XMLIZED, ALLOC> >
 {
   //a "fake" xmlObject to keep trace of the common parameters shared by all elements of the container.
@@ -121,7 +121,7 @@ public xmlObject_CV < std::deque<XMLIZED_, std::allocator<XMLIZED_> > >
 //Constructors and destructor
 
 // default: no wrapped object
-template<typename XMLIZED, typename ALLOC, template <typename XMLIZED, typename ALLOC> class Cont>
+template<typename XMLIZED, typename ALLOC, template <typename XMLIZED2, typename ALLOC2> class Cont>
 xmlObject_CV < Cont<XMLIZED,ALLOC> >::xmlObject_CV( std::string name ) : xmlObject_tbase< Cont<XMLIZED,ALLOC> >(name), myHandler()
 {
   //myHandler=xmlObject<XMLIZED>(); //TODO: seemingly benign lign leads to segfault !?!?
@@ -129,7 +129,7 @@ xmlObject_CV < Cont<XMLIZED,ALLOC> >::xmlObject_CV( std::string name ) : xmlObje
 }
 
 // with wrapped object
-template<typename XMLIZED, typename ALLOC, template <typename XMLIZED, typename ALLOC> class Cont>
+template<typename XMLIZED, typename ALLOC, template <typename XMLIZED2, typename ALLOC2> class Cont>
 xmlObject_CV < Cont<XMLIZED,ALLOC> >::xmlObject_CV( Cont<XMLIZED,ALLOC> & obj , std::string name ) : xmlObject_tbase< Cont<XMLIZED,ALLOC> >(obj,name), myHandler()
 {
   //myHandler=xmlObject<XMLIZED>(); //TODO: seemingly benign lign leads to segfault !?!?
@@ -139,7 +139,7 @@ xmlObject_CV < Cont<XMLIZED,ALLOC> >::xmlObject_CV( Cont<XMLIZED,ALLOC> & obj , 
 
 // Saving procedure
 
-template<typename XMLIZED, typename ALLOC, template <typename XMLIZED, typename ALLOC> class Cont>
+template<typename XMLIZED, typename ALLOC, template <typename XMLIZED2, typename ALLOC2> class Cont>
 void xmlObject_CV< Cont<XMLIZED,ALLOC> >::save_Element(xmlNodePtr the_element) 
 {
   for (typename Cont<XMLIZED,ALLOC>::iterator arf=this->wrapped->begin() ; arf!=this->wrapped->end() ;arf++)
@@ -161,7 +161,7 @@ void xmlObject_CV< Cont<XMLIZED,ALLOC> >::save_Element(xmlNodePtr the_element)
 
 // Loading procedure
 
-template<typename XMLIZED, typename ALLOC, template <typename XMLIZED, typename ALLOC> class Cont>
+template<typename XMLIZED, typename ALLOC, template <typename XMLIZED2, typename ALLOC2> class Cont>
 bool xmlObject_CV< Cont<XMLIZED,ALLOC> >::load_Element(xmlNodePtr the_element, bool warn)
 {
   //Mark this element as used
@@ -206,7 +206,7 @@ bool xmlObject_CV< Cont<XMLIZED,ALLOC> >::load_Element(xmlNodePtr the_element, b
 }
 
 
-template<typename XMLIZED, typename ALLOC, template <typename XMLIZED, typename ALLOC> class Cont>
+template<typename XMLIZED, typename ALLOC, template <typename XMLIZED2, typename ALLOC2> class Cont>
 void xmlObject_CV< Cont<XMLIZED,ALLOC> >::copy_Handler(const xmlObject_CV< Cont<XMLIZED,ALLOC> > & origin)
 {
   for(int i=0;i<origin.customInit_before.size();++i)
@@ -226,7 +226,7 @@ void xmlObject_CV< Cont<XMLIZED,ALLOC> >::copy_Handler(const xmlObject_CV< Cont<
 // (1) When order > 1 , just pass the registration of derivedCLASS to my handler !
 //*************
 
-template < uint order , typename XMLIZED , typename ALLOC, typename derivedCLASS, template<typename XMLIZED, typename ALLOC> class Cont >
+template < uint order , typename XMLIZED , typename ALLOC, typename derivedCLASS, template <typename XMLIZED2, typename ALLOC2> class Cont >
 struct XMLreg <order , Cont<XMLIZED,ALLOC> , derivedCLASS > 
 {    
   static bool total_registration ( std::list<std::string> registerNames , xmlObject_CV< Cont<XMLIZED,ALLOC> > * xmlobj )
@@ -253,11 +253,11 @@ struct XMLreg <order , Cont<XMLIZED,ALLOC> , derivedCLASS >
 //	Thus, if derivedCLASS != XMLIZED , we do not define the function => compilation error.
 //*************
 
-template < typename XMLIZED, typename ALLOC, typename derivedCLASS, template<typename XMLIZED, typename ALLOC> class Cont >
+template < typename XMLIZED, typename ALLOC, typename derivedCLASS, template <typename XMLIZED2, typename ALLOC2> class Cont >
 struct XMLreg <1 , Cont<XMLIZED,ALLOC> , derivedCLASS > ;
 
 
-template < typename XMLIZED, typename ALLOC, template<typename XMLIZED, typename ALLOC> class Cont >
+template < typename XMLIZED, typename ALLOC, template <typename XMLIZED2, typename ALLOC2> class Cont >
 struct XMLreg <1 , Cont<XMLIZED,ALLOC> , XMLIZED >
 {    
   static bool total_registration ( std::list<std::string> registerNames , xmlObject_CV< Cont<XMLIZED,ALLOC> > * xmlobj )
@@ -300,7 +300,7 @@ struct XMLreg <1 , Cont<XMLIZED,ALLOC> , XMLIZED >
 // (1) When order > 1 , just pass the registration of "func" to my handler !
 //*************
 
-template < uint order, typename XMLIZED, typename ALLOC, typename baseCLASS, template<typename XMLIZED, typename ALLOC> class Cont >
+template < uint order, typename XMLIZED, typename ALLOC, typename baseCLASS, template <typename XMLIZED2, typename ALLOC2> class Cont >
 struct XMLreginit <order, Cont<XMLIZED,ALLOC> , baseCLASS >
 {
   static bool stat( std::string registerName, xmlObject<Cont<XMLIZED,ALLOC> > * xmlobj,
@@ -334,7 +334,7 @@ struct XMLreginit <order, Cont<XMLIZED,ALLOC> , baseCLASS >
 // (2)  For order 1, "func" directly provides customInits to myHandler (with baseCLASS=XMLIZED_b)
 //*************
 
-template < typename XMLIZED, typename ALLOC, typename XMLIZED_b, template<typename XMLIZED, typename ALLOC> class Cont >
+template < typename XMLIZED, typename ALLOC, typename XMLIZED_b, template <typename XMLIZED2, typename ALLOC2> class Cont >
 struct XMLreginit <1 , Cont<XMLIZED,ALLOC> , XMLIZED_b >
 {
   static bool stat( std::string registerName, xmlObject<Cont<XMLIZED,ALLOC> > * xmlobj,
@@ -387,7 +387,7 @@ struct XMLreginit <1 , Cont<XMLIZED,ALLOC> , XMLIZED_b >
 // What are my handled xmlnames?
 
 // (1) General behavior is passing to my handler...
-template < typename XMLIZED, typename ALLOC, typename XMLIZED_2, template<typename XMLIZED, typename ALLOC> class Cont >
+template < typename XMLIZED, typename ALLOC, typename XMLIZED_2, template <typename XMLIZED2, typename ALLOC2> class Cont >
 struct XMLname< Cont<XMLIZED,ALLOC>, XMLIZED_2 >
 {
   static bool findname( XMLIZED_2 * object , xmlObject_CV< Cont<XMLIZED,ALLOC> > * xmlobj , std::string & retname )
@@ -397,7 +397,7 @@ struct XMLname< Cont<XMLIZED,ALLOC>, XMLIZED_2 >
 };
 
 // (2) ...except if XMLIZED_2 = XMLIZED, my contained type. So: (yet another) TEMPLATE SPECIALIZATION !
-template < typename XMLIZED, typename ALLOC, template<typename XMLIZED, typename ALLOC> class Cont >
+template < typename XMLIZED, typename ALLOC, template<typename XMLIZED2, typename ALLOC2> class Cont >
 struct XMLname< Cont<XMLIZED,ALLOC>, XMLIZED >
 {
   static bool findname( XMLIZED * object , xmlObject_CV< Cont<XMLIZED,ALLOC> > * xmlobj , std::string & retname )
