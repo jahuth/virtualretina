@@ -116,13 +116,17 @@ echo Entering External_Libraries/$MVASPIKE
 cd $ROOTDIR/External_Libraries/$MVASPIKE
 
 # Compile and install locally
-if [[ ! -r $MVASPIKE/lib/libmvaspike.so ]]  # OPTIM_CHECK
+if [[ ! -r $PWD/lib/libmvaspike.so ]]  # OPTIM_CHECK
   then
   ./configure --prefix=$PWD      # modify the prefix to change installation dir (default /usr/local)
   make
   make install
+  # Clean all installation files
+  make clean
+  /bin/rm -rf ./config.log ./config.status ./libtool
+  find . \( -name Makefile -o -name .deps \) -exec /bin/rm -rf {} \;
 else
-  echo "Found MVASPIKE library: External_Libraries/"$MVASPIKE/lib/libmvaspike.so
+  echo "Found MVASPIKE library: External_Libraries/"$PWD/lib/libmvaspike.so
 fi
 
 # Create (or overwrite) the link 'MvaSpike' in VirtualRetina/ext-lib-links:
