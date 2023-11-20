@@ -62,9 +62,9 @@ CImg<double> one_cell_firing_rate( const char *spiklist, const int id, char* sav
   if(saved_signal!=NULL)
   {
     file=fopen(saved_signal,"w");
-    fprintf(file,"<html>\n\n<head>\nTemporal signal. Size %d Step %lf\n</head>\n\n<body>\n",firing.width(),step);
+    fprintf(file,"<html>\n\n<head>\nTemporal signal. Size %d Step %f\n</head>\n\n<body>\n",firing.width(),step);
     for(int t=0;t<firing.width();t++)
-      fprintf(file, "%lf\n",firing(t));
+      fprintf(file, "%f\n",firing(t));
     fprintf(file,"</body>\n\n</html>");
     fclose(file);
   }

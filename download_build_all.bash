@@ -9,6 +9,9 @@
 # You may have to remove them if you modify this script
 # towards a custom installation.
 
+# This is the 2023 modification by Adrien Wohrer, including mvaspike directly in the archive
+# (since the official mvaspike website has gone down)
+
 
 # (0) Versions, variables, addresses
 # ==================================
@@ -17,8 +20,7 @@ ROOTDIR=$PWD
 
 VIRTUALRETINA=VirtualRetina
 CIMG=CImg-git
-MVASPIKE=mvaspike-1.0.18
-MVASPIKE_DOWNLOAD_ADDRESS=http://gforge.inria.fr/frs/download.php/file/32318/mvaspike-1.0.18.tar.gz
+MVASPIKE=mvaspike-1.0.17
 XMLPARAM=xmlParameters++-1.1.1
 
 # if necessary:
@@ -98,8 +100,8 @@ cd $ROOTDIR/$VIRTUALRETINA/ext-lib-links/
 ln -Tsf ../../External_Libraries/$CIMG CImg
 
 
-# (3) Download/install MvaSpike
-# =============================
+# (3) Install MvaSpike
+# ====================
 
 echo
 echo ----------------------------------------
@@ -110,21 +112,12 @@ echo
 echo
 echo ----------------------------------------
 
-cd $ROOTDIR/External_Libraries
-if [[ ! -d $MVASPIKE ]]  # OPTIM_CHECK
-  then
-  wget $MVASPIKE_DOWNLOAD_ADDRESS
-  tar -zxf $MVASPIKE.tar.gz
-  rm $MVASPIKE.tar.gz
-else
-  echo "Found MVASPIKE rootdir: External_Libraries/"$MVASPIKE
-fi
+echo Entering External_Libraries/$MVASPIKE
+cd $ROOTDIR/External_Libraries/$MVASPIKE
 
-# Compile and install locally (in source directory):
+# Compile and install locally
 if [[ ! -r $MVASPIKE/lib/libmvaspike.so ]]  # OPTIM_CHECK
   then
-  echo Entering External_Libraries/$MVASPIKE
-  cd $MVASPIKE
   ./configure --prefix=$PWD      # modify the prefix to change installation dir (default /usr/local)
   make
   make install

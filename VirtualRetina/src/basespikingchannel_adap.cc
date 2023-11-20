@@ -30,18 +30,21 @@ BaseSpikingChannel_adap& BaseSpikingChannel_adap::set_delta_g_adap(double f)
 {
   checkStatus();
   delta_g_adap=f;
+  return *this;  // I guess?
 }
 
 BaseSpikingChannel_adap& BaseSpikingChannel_adap::set_tau_g_adap(double f)
 {
   checkStatus();
   tau_g_adap=f;
+  return *this;  // I guess?
 }
 
 BaseSpikingChannel_adap& BaseSpikingChannel_adap::set_E_adap(double f)
 {
   checkStatus();
   E_adap=f;
+  return *this;  // I guess?
 }
 
 

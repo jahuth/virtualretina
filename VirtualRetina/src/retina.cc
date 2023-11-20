@@ -793,7 +793,7 @@ void GanglionLayer::xmlinit_after_children()
 GanglionLayer::~GanglionLayer()
 {
   delete spikingChannel;
-};
+}
 
 void GanglionLayer::allocateValues( bool verbose)
 {
