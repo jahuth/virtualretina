@@ -20,7 +20,7 @@ ROOTDIR=$PWD
 
 VIRTUALRETINA=VirtualRetina
 CIMG=CImg-git
-MVASPIKE=mvaspike-1.0.17
+MVASPIKE=mvaspike-1.0.17_cmake
 XMLPARAM=xmlParameters++-1.1.1
 
 # if necessary:
@@ -115,18 +115,16 @@ echo ----------------------------------------
 echo Entering External_Libraries/$MVASPIKE
 cd $ROOTDIR/External_Libraries/$MVASPIKE
 
-# Compile and install locally
-if [[ ! -r $PWD/lib/libmvaspike.so ]]  # OPTIM_CHECK
+# Compile and install locally (in source directory):
+if [[ -r CMakeCache.txt ]] # if a cache is present, remove it (to take possible changes in CMakeLists.txt into account)
+  then rm CMakeCache.txt
+fi
+$CMAKE CMakeLists.txt
+EXITSTATUS=$?
+if [[ $EXITSTATUS == 0 ]] # Do not try to compile if CMake produced an error
   then
-  ./configure --prefix=$PWD      # modify the prefix to change installation dir (default /usr/local)
   make
   make install
-  # Clean all installation files
-  make clean
-  /bin/rm -rf ./config.log ./config.status ./libtool
-  find . \( -name Makefile -o -name .deps \) -exec /bin/rm -rf {} \;
-else
-  echo "Found MVASPIKE library: External_Libraries/"$PWD/lib/libmvaspike.so
 fi
 
 # Create (or overwrite) the link 'MvaSpike' in VirtualRetina/ext-lib-links:
