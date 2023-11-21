@@ -1,7 +1,7 @@
 This repository contains a recent (2023) working version of the VirtualRetina Simulator<sup>[1](#1)</sup>. It includes a number of bug fixes by [Jacob Huth](https://github.com/jahuth) and others. It has been forked from Jacob Huth's github [repository of the same name](https://github.com/jahuth/virtualretina) and will probably continue to exist alongside.
 
 
-Virtual Retina was originally developped in 2009 at INRIA,  under INRIA [CeCill C open-source licence](http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html). The current official website of the simulator is: [https://team.inria.fr/biovision/virtualretina/](https://team.inria.fr/biovision/virtualretina/)
+Virtual Retina was originally developed in 2009 at INRIA,  under INRIA [CeCill C open-source licence](http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html). The current official website of the simulator is: [https://team.inria.fr/biovision/virtualretina/](https://team.inria.fr/biovision/virtualretina/)
 
 Example files and more extensive documentation can be found in the original package [here](https://team.inria.fr/biovision/virtualretina/), this repository only holds the source code.
 
