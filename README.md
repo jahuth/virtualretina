@@ -1,8 +1,9 @@
-This repository collects minor bug fixes to the VirtualRetina Simulator<sup>[1](#1)</sup>. The package was originally downloaded from [here](http://www-sop.inria.fr/neuromathcomp/software/virtualretina/index.shtml) under INRIA [CeCill C open-source licence](http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html).
+This repository contains a recent (2023) working version of the VirtualRetina Simulator<sup>[1](#1)</sup>. It includes a number of bug fixes by [Jacob Huth](https://github.com/jahuth) and others. It has been forked from Jacob Huth's github [repository of the same name](https://github.com/jahuth/virtualretina) and will probably continue to exist alongside.
 
-The new official website of the simulator is: [https://virtualretina.inria.fr/](https://virtualretina.inria.fr/)
 
-Example files and more extensive documentation can be found in the original package, this repository only holds the source code.
+Virtual Retina was originally developped in 2009 at INRIA,  under INRIA [CeCill C open-source licence](http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html). The current official website of the simulator is: [https://team.inria.fr/biovision/virtualretina/](https://team.inria.fr/biovision/virtualretina/)
+
+Example files and more extensive documentation can be found in the original package [here](https://team.inria.fr/biovision/virtualretina/), this repository only holds the source code.
 
 The bugs fixed:
 
@@ -17,7 +18,9 @@ The bugs fixed:
  	+ removed deprecated function call [commit f56ba20](https://github.com/jahuth/virtualretina/commit/f56ba203c1d7fe768cc27ed39aabb0610f07aa3d)
  - xmlParameters had clashing template names, leading to compiler warnings
 	+ fixed with [commit 5f9d076](https://github.com/jahuth/virtualretina/commit/5f9d0763e224276ccb53ec80583102594419025e) by [Richard Veale](https://github.com/flyingfalling)
-
+ - minor modifications to comply to new compiler requests (2023)
+ - inclusion of library `Mvaspike` in the git source code. `Mvaspike` is an event-driven spiking neural network simulator that was originally developed by [Olivier Rochel](https://sed-nge.inria.fr/team/olivierr/) at INRIA. It is now directly included in the VirtualRetina archive, as it cannot be found online anymore.
+ 
 Contributors to this project are:
 
  * Adrien Wohrer - original author
@@ -29,7 +32,7 @@ Contributors to this project are:
 Installation
 ============
 
-Tested on Ubuntu 14.04, 16.04, 17.04
+Tested on Ubuntu 14.04, 16.04, 17.04 and Debian 11.
 
  1. Install requirements
 ---------------------------
@@ -50,7 +53,7 @@ sudo apt-get install cmake libxml2-dev libx11-dev
 
 Clone the repository to a folder of your choice
 ```
-git clone https://github.com/jahuth/virtualretina
+git clone https://github.com/AdrienWohrer/virtualretina
 ```
 
 Run the script `download_build_all.bash` (using `bash`)
@@ -60,14 +63,14 @@ bash download_build_all.bash
 ```
 
 This script will download multiple software projects and compile them one after another.
-If you encounter an error, please file an [issue](https://github.com/jahuth/virtualretina/issues).
+If you encounter an error, please file an [issue](https://github.com/AdrienWohrer/virtualretina/issues).
 
 
 
 ```
 *************************************************************************
 ************            Welcome to VirtualRetina        *****************
-************                version 2.2.2               *****************
+************                version 2.2.3               *****************
 *************************************************************************
 
                          Spiking, large-scale retina simulation software.
@@ -76,7 +79,7 @@ If you encounter an error, please file an [issue](https://github.com/jahuth/virt
       Institution : Group For Neural Theory, Ecole Normale Supérieure
       Contact : Adrien.Wohrer@ens.fr
       Project started December 2004. 
-      Version 2.2.2 : December 2010.
+      Version 2.2.3 : December 2023.
 
 
 This is the retina package. It contains VirtualRetina/, as well as other
