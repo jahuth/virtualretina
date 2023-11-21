@@ -76,8 +76,8 @@ If you encounter an error, please file an [issue](https://github.com/AdrienWohre
                          Spiking, large-scale retina simulation software.
 
       Author : Adrien Wohrer
-      Institution : Group For Neural Theory, Ecole Normale Supérieure
-      Contact : Adrien.Wohrer@ens.fr
+      Institution : Université Clermont Auvergne
+      Contact : Adrien.Wohrer@uca.fr
       Project started December 2004. 
       Version 2.2.3 : December 2023.
 
