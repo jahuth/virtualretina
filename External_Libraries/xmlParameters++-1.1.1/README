@@ -26,9 +26,10 @@ know how to save/load the parameters of the object that has been wrapped.
 
 ************** EXAMPLE OF USE:
 
-Go to directory Example, read the README, follow the instructions.
-Launch the program Test_Bus directly from directory Example (otherwise, the
-program aborts).
+In this directory, install xmlParameters++ locally with commands:
+		cmake -DCMAKE_INSTALL_PREFIX:PATH=. CMakeLists.txt
+		make install
+Then go to directory Example, read the README, follow the instructions.
 
 
 ************** USEFUL FUNCTIONS AND CLASSES:

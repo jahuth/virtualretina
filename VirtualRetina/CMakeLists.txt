@@ -10,7 +10,7 @@ cmake_minimum_required(VERSION 2.6)
 # xmlParameters++, your desires might be fulfilled more simply
 # by changing the links in ext-lib-links/:
 # For example, if MvaSpike is already installed on your machine
-# in /usr/local, just set  ext-lib-links/MvaSpike--> /usr/local
+# in /usr/local, just set  ext-lib-links/MvaSpike --> /usr/local
 
 #------------------------------------------------------------
 #    Reminders

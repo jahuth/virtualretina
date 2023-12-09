@@ -20,7 +20,7 @@ public:
   std::list<xmlObject_base*> childSpace;
   void add_childSpace( xmlObject_base * newChild );
   void* wrapped_noType;	        // (void*) address of the future wrapped object (in xmlObject< whatever > )
-  virtual const std::type_info & wrapped_typeid(){} // typeid of the future wrapped object (in xmlObject< whatever > )
+  virtual const std::type_info & wrapped_typeid() = 0; // typeid of the future wrapped object (in xmlObject< whatever > )
   xmlObject_base* fatherSpace;  // Never used for the moment, but well, who knows...
   // Used for pointers and containers : how 'deep' is the recursion
 	// of containers and pointers before actually reaching an Xmlizable ?

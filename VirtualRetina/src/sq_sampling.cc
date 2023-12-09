@@ -63,7 +63,7 @@ void sqSampling::checkStatus(void)
   checkFather();
   if(done)
   {
-    cerr<<"Error in sqSampling::set_xxx() : You're trying to change a parameter after it was initialized."<<endl;
+    cerr<<"Error in sqSampling::set_xxx() : You are trying to change a parameter after it was initialized."<<endl;
     exit(0);
   }
 }

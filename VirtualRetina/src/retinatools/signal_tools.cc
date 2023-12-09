@@ -177,7 +177,8 @@ CImgList<double> coAnalyseFourier(CImg<double> signal, const vector<double> &fre
   CImg<complex<double> > scalFreqCplx=freqMatrix*freqMatrixConj;
   CImg<double> scalFreq(numberFreq,numberFreq);
   cimg_forXY(scalFreq,x,y) scalFreq(x,y)=real(scalFreqCplx(x,y));
-  scalFreq.pseudoinvert();   //has to be performed on real numbers, which is why we had to force a new type.
+  //scalFreq.pseudoinvert();   // 2023 : function does not exist anymore:
+  scalFreq.invert();   // 2023 : seems to be the only replacement available. Hope and pray I never actually used that function ^^
   cimg_forXY(scalFreq,x,y) scalFreqCplx(x,y)=scalFreq(x,y);
 
   //projection of the signal on the subspace of test frequencies:
