@@ -1,4 +1,5 @@
-This repository contains a recent (2023) working version of the VirtualRetina Simulator<sup>[1](#1)</sup>. It includes a number of bug fixes by [Jacob Huth](https://github.com/jahuth) and others. It has been forked from Jacob Huth's github [repository of the same name](https://github.com/jahuth/virtualretina) and will probably continue to exist alongside.
+This repository contains a recent (2023) working version of the VirtualRetina Simulator<sup>[1](#1)</sup>. It includes a number of bug fixes by [Jacob Huth](https://github.com/jahuth) and others.
+A version of the repository is also provided by [the original author Adrien Wohrer](https://github.com/AdrienWohrer/virtualretina).
 
 
 Virtual Retina was originally developed in 2009 at INRIA, under INRIA [CeCill C open-source licence](http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html). The current official website of the simulator is: [https://team.inria.fr/biovision/virtualretina/](https://team.inria.fr/biovision/virtualretina/), where more information and test sequences can be found (but not necessarily up-to-date).
@@ -52,7 +53,7 @@ sudo apt-get install cmake libxml2-dev libx11-dev
 
 Clone the repository to a folder of your choice
 ```
-git clone https://github.com/AdrienWohrer/virtualretina
+git clone https://github.com/jahuth/virtualretina
 ```
 
 Run the script `download_build_all.bash` (using `bash`)
@@ -62,7 +63,7 @@ bash download_build_all.bash
 ```
 
 This script will download multiple software projects and compile them one after another.
-If you encounter an error, please file an [issue](https://github.com/AdrienWohrer/virtualretina/issues).
+If you encounter an error, please file an [issue](https://github.com/jahuth/virtualretina/issues).
 
 
 
